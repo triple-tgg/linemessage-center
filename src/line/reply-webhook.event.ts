@@ -33,7 +33,6 @@ export class ReplyWehookEvent {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'X-Line-Signature': payload.xLineSignature,
-          'Content-Length': bodyBuffer.length.toString(),
           'User-Agent': 'LineBotWebhook/2.0',
         },
         data: bodyBuffer,
