@@ -20,7 +20,7 @@ export class LogsMiddleware implements NestMiddleware {
     console.log(`[LOG] ::: REQUEST ID ::: ${logId} :::`)
     this.aiLoggerService.info(`${method} ${originalUrl} - ${userAgent} ${ip}`)
     this.aiLoggerService.info(`REQUEST HEADERS ${JSON.stringify(request.headers)}`)
-    this.aiLoggerService.info(`REQUEST BODY ${Buffer.from(request.rawBody).toString()}`)
+    this.aiLoggerService.info(`REQUEST BODY ${request.rawBody ? Buffer.from(request.rawBody).toString() : ''}`)
 
     let send = response.send;
     response.send = (exitData) => {
