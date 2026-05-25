@@ -17,10 +17,14 @@ export class ReplyWehookEvent {
   @OnEvent('reply.message')
   async replyMessage(payload: replyMessageDto) {
     this.aiLoggerService.info(`FUNC ::: Event ReplyMessage Start :::`)
-    this.aiLoggerService.info(`FUNC ::: Event ReplyMessage ::: payload: ${JSON.stringify(payload)}`)
+    const logPayload = {
+      ...payload,
+      requestBody: payload.requestBody.toString('utf-8')
+    }
+    this.aiLoggerService.info(`FUNC ::: Event ReplyMessage ::: payload: ${JSON.stringify(logPayload)}`)
     try {
 
-      const bodyBuffer = Buffer.from(payload.requestBody, 'utf-8')
+      const bodyBuffer = payload.requestBody
       this.aiLoggerService.info(`FUNC ::: Event ReplyMessage DEBUG ::: bodyByteLength: ${bodyBuffer.length}, bodyHash: ${require('crypto').createHash('sha256').update(bodyBuffer).digest('hex').substring(0, 16)}`)
 
       const requestConfig: AxiosRequestConfig = {
@@ -29,6 +33,8 @@ export class ReplyWehookEvent {
         headers: {
           'Content-Type': 'application/json',
           'x-line-signature': payload.xLineSignature,
+          'Content-Length': bodyBuffer.length.toString(),
+          'User-Agent': 'LineBotWebhook/2.0',
         },
         data: bodyBuffer,
         transformRequest: [(data) => data],
@@ -38,7 +44,7 @@ export class ReplyWehookEvent {
           this.httpService.request(requestConfig)
         )
         const monitorLog = {
-          payload,
+          payload: logPayload,
           requestConfig: requestConfig,
           response: response.data ?? ''
         }

@@ -15,17 +15,18 @@ export class LineWebhookService {
     ) {}
     private aiLogger = (text: string) => this.aiLoggerService.info(text)
     
-    public replyWebhook = async (xLineSignature: string, requestBody: any, channelId: string) => {
+    public replyWebhook = async (xLineSignature: string, requestBody: Buffer, channelId: string) => {
         this.aiLogger(`FUNC ::: ReplyWebhook START :::`)
         this.aiLogger(`FUNC ::: ReplyWebhook ::: xLineSignature:${xLineSignature}`)
-        this.aiLogger(`FUNC ::: ReplyWebhook ::: requestBody:${requestBody}`)
-        const endPointLists = this.endPointHook(channelId, JSON.parse(requestBody), config)
+        const requestBodyString = requestBody.toString('utf-8')
+        this.aiLogger(`FUNC ::: ReplyWebhook ::: requestBody:${requestBodyString}`)
+        const endPointLists = this.endPointHook(channelId, JSON.parse(requestBodyString), config)
         this.aiLogger(`FUNC ::: ReplyWebhook ::: endPointLists:${JSON.stringify(endPointLists)}`)
         
         endPointLists.forEach(endPoint => {
             this.aiLogger(`FUNC ::: ReplyWebhook ::: Loop Event endPoint: ${endPoint}`)
             this.aiLogger(`FUNC ::: ReplyWebhook ::: Loop Event xLineSignature: ${xLineSignature}`)
-            this.aiLogger(`FUNC ::: ReplyWebhook ::: Loop Event requestBody: ${requestBody}`)
+            this.aiLogger(`FUNC ::: ReplyWebhook ::: Loop Event requestBody: ${requestBodyString}`)
 
             const replyMessage: replyMessageDto = {
                 endPoint,
