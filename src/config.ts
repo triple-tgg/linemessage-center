@@ -13,31 +13,10 @@ const development: configDto = {
             isChannel: false
         },
         {
-            endpoint: "https://xxx-dmb.sansiri.com/API/Line/MessageWebhook/89254119-9CF3-4B3D-A5D1-090D0F357D93",
-            eventType: ["beacon"],
-            messageInKeyword: [],
-            messageExKeyword: [],
-            isChannel: false
-        },
-        {
-            endpoint: "https://xxx-stg-api.sansiri.net/sfdc-chat-webhook/webhook",
+            endpoint: "https://webhook.site/a3c6e4dd-93e5-4d7a-b392-a8603966ac61",
             eventType: ["message", "unsend", "follow", "unfollow", "join", "leave", "memberJoined", "memberLeft", "postback", "videoPlayComplete", "accountLink", "things"],
             messageInKeyword: [],
             messageExKeyword: [],
-            isChannel: true
-        },
-        {
-            endpoint: "https://xxx-fresh-liger-23.telebit.io/line/hook2",
-            eventType: ["message", "beacon"],
-            messageInKeyword: ["LBE", "LBD"],
-            messageExKeyword: [],
-            isChannel: true
-        },
-        {
-            endpoint: "https://-NO-MESSAGE-BEACONENABLEREPLYMESSAGE",
-            eventType: ["message"],
-            messageInKeyword: [],
-            messageExKeyword: ["BEACONENABLEREPLYMESSAGE"],
             isChannel: true
         }
     ]
@@ -48,34 +27,12 @@ const staging: configDto = {
     environment: Environment.toUpperCase(),
     lineWebhookApi: [
         {
-            endpoint: "https://xxx-dmb.sansiri.com/API/Line/MessageWebhook/89254119-9CF3-4B3D-A5D1-090D0F357D93",
-            eventType: ["message", "beacon"],
-            messageInKeyword: ["LBE", "LBD"],
-            messageExKeyword: [],
-            isChannel: false
-        },
-        {
-            endpoint: "https://xxx-dmb.sansiri.com/API/Line/MessageWebhook/89254119-9CF3-4B3D-A5D1-090D0F357D93",
-            eventType: ["beacon"],
-            messageInKeyword: [],
-            messageExKeyword: [],
-            isChannel: false
-        },
-        {
-            endpoint: "https://xxx-stg-api.sansiri.net/sfdc-chat-webhook/webhook",
+            endpoint: "https://webhook.site/a3c6e4dd-93e5-4d7a-b392-a8603966ac61",
             eventType: ["message", "unsend", "follow", "unfollow", "join", "leave", "memberJoined", "memberLeft", "postback", "videoPlayComplete", "accountLink", "things"],
             messageInKeyword: [],
             messageExKeyword: ["LBE", "LBD"],
             isChannel: true
-        },
-        {
-            endpoint: "https://xxx-fresh-liger-23.telebit.io/line/hook2",
-            eventType: ["message", "beacon"],
-            messageInKeyword: ["BEACONENABLEREPLYMESSAGE", "BEACONDISABLEREPLYMESSAGE"],
-            messageExKeyword: [],
-            isChannel: true
-        }
-    ]
+        }]
 }
 
 const production: configDto = {
