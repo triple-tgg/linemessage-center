@@ -8,12 +8,6 @@ import { ClsModule } from 'nestjs-cls';
 const mockConfig = {
   version: "0.13",
   environment: '',
-  dmcEndpoint: '',
-  dmcToken: '',
-  dmcLogEndpoint: '',
-  dmcLogToken: '',
-  replyEndpoint: '',
-  replyToken: '',
   lineWebhookApi: [
       {
           endpoint: "https://dmb.sansiri.com/API/Line/MessageWebhook/89254119-9CF3-4B3D-A5D1-090D0F357D93",
