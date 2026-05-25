@@ -1,0 +1,66 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  tags:
+    include:
+      - release/*
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: CF_GIT_TAG_VERSION
+    value: ''
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build_Image
+        displayName: Build Image and Push Image
+        steps:
+          - checkout: self
+            displayName: Checkout Push Pipeline
+            persistCredentials: true
+            fetchTags: true
+          - bash: |
+              glastag=$(git tag -l --sort=v:refname | grep -E "^release+\/+[0-9]+\.+[0-9]+\.[0-9]" | tail -1) && 
+              echo "##vso[task.setvariable variable=CF_GIT_TAG_VERSION;]$glastag"
+            displayName: Get last git tag
+          - bash: git checkout tags/$(CF_GIT_TAG_VERSION) -b azdevops
+            displayName: Checkout to Tag
+          - task: Docker@2
+            inputs:
+             command: 'build'
+             Dockerfile: $(docker_path)
+             repository: $(repo_sorce)
+             tags: $(img_tag)
+          - task: ECRPushImage@1
+            inputs:
+              awsCredentials: $(acc_aws)
+              regionName: 'ap-southeast-1'
+              imageSource: 'imagename'
+              sourceImageName: $(repo_sorce)
+              sourceImageTag: $(img_tag)
+              repositoryName: $(repo_sorce)
+              pushTag: $(img_tag)
+              autoCreateRepository: false
+  - stage: Update_Service
+    jobs:
+        - job: update_ECS_Service
+          displayName: Update AWS ECS Service
+          steps:
+            - task: AWSCLI@1
+              displayName: Update Service
+              inputs:
+                awsCredentials: $(acc_aws)
+                regionName: 'ap-southeast-1'
+                awsCommand: 'ecs'
+                awsSubCommand: 'update-service'
+                awsArguments: '--cluster $(aws_cluster) --service $(aws_service) --force-new-deployment'
+        - job: Scancode
+          displayName: ScanCode by Microsoft Defender
+          steps:
+            - task: MicrosoftSecurityDevOps@1
