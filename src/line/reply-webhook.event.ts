@@ -27,7 +27,8 @@ export class ReplyWehookEvent {
           'Content-Type': 'application/json',
           'x-line-signature': payload.xLineSignature,
         },
-        data: payload.requestBody
+        data: Buffer.from(payload.requestBody, 'utf-8'),
+        transformRequest: [(data) => data],
       }
 
         const response = await lastValueFrom(
