@@ -23,8 +23,10 @@ export class LineWebhookController {
   async lineWebhook(@Headers() headers:any, @Query() query: any, @Req() req: RawBodyRequest<Request>, @Res() response: any) {
     try {
       const xLineSignature = headers['x-line-signature'] ?? ''
-      const rawBody = Buffer.from(req.rawBody).toString()
+      const rawBodyBuffer = req.rawBody
+      const rawBody = Buffer.from(rawBodyBuffer).toString()
       const channelId = query.channel_id ?? ''
+      this.aiLoggerService.info(`FUNC ::: lineWebhook DEBUG ::: originalByteLength: ${rawBodyBuffer.length}, forwardByteLength: ${Buffer.from(rawBody, 'utf-8').length}, bytesMatch: ${rawBodyBuffer.length === Buffer.from(rawBody, 'utf-8').length}`)
       await this.lineWebhookService.replyWebhook(xLineSignature, rawBody, channelId)
       return response.status(200).json('OK')
     } catch (error) {

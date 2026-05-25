@@ -20,6 +20,9 @@ export class ReplyWehookEvent {
     this.aiLoggerService.info(`FUNC ::: Event ReplyMessage ::: payload: ${JSON.stringify(payload)}`)
     try {
 
+      const bodyBuffer = Buffer.from(payload.requestBody, 'utf-8')
+      this.aiLoggerService.info(`FUNC ::: Event ReplyMessage DEBUG ::: bodyByteLength: ${bodyBuffer.length}, bodyHash: ${require('crypto').createHash('sha256').update(bodyBuffer).digest('hex').substring(0, 16)}`)
+
       const requestConfig: AxiosRequestConfig = {
         url: payload.endPoint,
         method: 'POST',
@@ -27,7 +30,7 @@ export class ReplyWehookEvent {
           'Content-Type': 'application/json',
           'x-line-signature': payload.xLineSignature,
         },
-        data: Buffer.from(payload.requestBody, 'utf-8'),
+        data: bodyBuffer,
         transformRequest: [(data) => data],
       }
 
