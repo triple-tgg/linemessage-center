@@ -45,13 +45,6 @@ const production: configDto = {
             messageInKeyword: [],
             messageExKeyword: [],
             isChannel: false
-        },
-        {
-            endpoint: "https://webhook.site/a3c6e4dd-93e5-4d7a-b392-a8603966ac61",
-            eventType: ["message", "unsend", "follow", "unfollow", "join", "leave", "memberJoined", "memberLeft", "postback", "videoPlayComplete", "accountLink", "things"],
-            messageInKeyword: [],
-            messageExKeyword: [],
-            isChannel: false
         }
     ]
 }
