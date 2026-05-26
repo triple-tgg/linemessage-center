@@ -37,7 +37,8 @@ export class AppModule {
       .apply(ClsMiddleware, LogsMiddleware)
       .exclude(
         { path: '/line-webhook/.well-known/health', method: RequestMethod.ALL },
-        { path: '/line-webhook', method: RequestMethod.ALL }
+        { path: '/line-webhook', method: RequestMethod.ALL },
+        { path: '/favicon.ico', method: RequestMethod.ALL }
       )
       .forRoutes(
         { path: '{*path}', method: RequestMethod.ALL },
