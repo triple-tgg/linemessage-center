@@ -45,6 +45,13 @@ const production: configDto = {
             messageInKeyword: [],
             messageExKeyword: [],
             isChannel: false
+        },
+        {
+            endpoint: "https://chatbot.loxley-bi.co.th/web/webhook/line/105320",
+            eventType: ["message", "unsend", "follow", "unfollow", "join", "leave", "memberJoined", "memberLeft", "postback", "videoPlayComplete", "accountLink", "things"],
+            messageInKeyword: [],
+            messageExKeyword: [],
+            isChannel: false
         }
     ]
 }
